@@ -1,0 +1,53 @@
+//
+//  Copyright © 2019 Paolo Leonardi.
+//
+//  Licensed under the MIT license. See the LICENSE file for more info.
+//
+
+import Foundation
+import SwiftUI
+
+struct Generator {
+    
+//    struct Rectangles {
+//        static func random(editMode: EditMode) -> [RectangleModel] {
+//            Array(0..<60).map {
+//                let color = editMode == .swapResize ? disabledColor() : randomColor()
+//                return RectangleModel(index: $0, size: randomSize(), color: color)
+//            }
+//        }
+//
+//        static func randomSize() -> CGFloat { CGFloat.random(in: 30...120) }
+//
+//        static func fixedSize() -> CGFloat { 60 }
+//
+//        static func randomColor() -> Color { [.red, .green, .blue, .orange, .yellow, .pink, .purple].randomElement()! }
+//
+//        static func disabledColor() -> Color { .gray }
+//    }
+    
+    struct Images {
+        static func random() -> [String] {
+            Array(0..<22).map { "image\($0)" }.shuffled()
+        }
+        static func testData() ->[String]{
+            return ["https://cdn.pixabay.com/photo/2017/05/09/03/46/alberta-2297204_150.jpg",
+             "https://cdn.pixabay.com/photo/2017/05/09/03/47/buildings-2297210_150.jpg",
+            "https://cdn.pixabay.com/photo/2014/05/03/00/09/landscape-336542_150.jpg",
+            "https://cdn.pixabay.com/photo/2016/11/30/15/00/lighthouse-1872998_150.jpg",
+            "https://cdn.pixabay.com/photo/2019/01/27/22/32/mountains-3959204_150.jpg",
+            "https://cdn.pixabay.com/photo/2020/03/01/15/30/fox-4893199_150.jpg",
+            "https://cdn.pixabay.com/photo/2014/07/29/06/41/polar-bear-404314_150.jpg",
+            "https://cdn.pixabay.com/photo/2012/06/19/18/09/elk-50296_150.jpg",
+            "https://cdn.pixabay.com/photo/2016/02/07/19/50/snow-1185474_150.jpg"
+            ]
+        }
+    }
+    
+//    struct Cards {
+//        static func random() -> [Card] {
+//            Images.random().map { Card(image: $0, title: LoremIpsum.randomTitle(), subtitle: LoremIpsum.randomSentences()) }
+//        }
+//    }
+    
+}
