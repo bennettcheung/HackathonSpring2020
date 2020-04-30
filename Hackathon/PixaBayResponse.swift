@@ -11,12 +11,12 @@ import Foundation
 struct PixaBayResponse: Codable {
     var total: Int
     var totalHits: Int
-    var hits: [HitResponse]
+    var hits: [ImageDetail]
 }
 
-struct HitResponse: Codable{
+struct ImageDetail: Codable, Hashable{
     var previewURL: String
-    var imageURL: String
+    var largeImageURL: String
     var type: String
     var tags: String
 }

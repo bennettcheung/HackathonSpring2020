@@ -9,15 +9,16 @@
 import SwiftUI
 import WaterfallGrid
 
+
 struct ImagesGrid: View {
 
-    @Binding var images: [String]
+    @ObservedObject var model = ImageViewModel()
     @Binding var settings: Settings
     
     var body: some View {
     
-        WaterfallGrid((images), id: \.self) { image in
-          ImageView(image)
+        WaterfallGrid((model.imageDetails), id: \.self) { image in
+            ImageView(image.largeImageURL)
             .onTapGesture{
                 print("tapped \(image)")
             }
@@ -37,7 +38,7 @@ struct ImagesGrid: View {
 
 struct ImagesGrid_Previews: PreviewProvider {
     static var previews: some View {
-        ImagesGrid(images: .constant(Generator.Images.testData()), settings: .constant(Settings.default(for: .images)))
-                .environment(\.colorScheme, .dark)
+        ImagesGrid(model: Generator.Images.testData(), settings: .constant(Settings.default(for: .images)))
+                .environment(\.colorScheme, .light)
     }
 }

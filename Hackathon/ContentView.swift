@@ -12,21 +12,26 @@ import MapKit
 
 struct ContentView: View {
     
-    @State private var images = Generator.Images.testData()
+//    @State private var images = Generator.Images.testData()
     @State private var settings = Settings.default(for: .images)
     @State private var showSettings = false
     @State private var showMap = false
-    @State private var searchKeyword = ""
-    
+    @State private var searchKeyword = "Vancouver"
+    @ObservedObject var viewModel = ImageViewModel()
+
     var body: some View {
         NavigationView {
-            ImagesGrid(images: $images, settings: $settings)
+            ImagesGrid(model: viewModel, settings: $settings)
                 .customNavigationBarTitle(Text("Inspirations"), displayMode: .inline)
                 .customNavigationBarItems(leading: self.leadingNavigationBarItems(), trailing: trailingNavigationBarItems())
         }
 //        .sheet(isPresented: $showSettings, content: { SettingsView(settings: self.$settings, screen: .images, isPresented: self.$showSettings) })
-            .sheet(isPresented: $showMap, onDismiss: getData, content: {LocationMap(showModal: self.$showMap, searchKeyword: self.$searchKeyword)})
+            .sheet(isPresented: $showMap, onDismiss: refresh, content: {LocationMap(showModal: self.$showMap, searchKeyword: self.$searchKeyword)})
             .navigationViewStyle(StackNavigationViewStyle())
+            .onAppear(perform: {
+                self.viewModel.search(self.searchKeyword)
+                
+            })
         
     }
     
@@ -38,26 +43,18 @@ struct ContentView: View {
     
     private func trailingNavigationBarItems() -> some View {
         HStack() {
-            Button(action: { self.images = Generator.Images.random() }) {
+            Button(action: {self.refresh() }) {
                 Image(systemName: "gobackward")
             }
         }
     }
     
-   func getData(){
-            var components = URLComponents(string: "https://pixabay.com/api")
-            components?.queryItems = [URLQueryItem(name: "key", value: "16299216-fca99185703295e0edae6c1cc"),
-                                      URLQueryItem(name: "q", value: self.searchKeyword),
-                                      URLQueryItem(name: "image_type", value: "photo")]
-            guard let url = components?.url else {return}
-            
-            URLSession.shared.dataTaskPublisher(for: url) //1
-                    .map { $0.data }                               //2
-                    .decode(type: PixaBayResponse.self,                //3
-                            decoder: JSONDecoder())
-            //        .mapError(mapError)                            //4
-                    .eraseToAnyPublisher()
-        }
+    func refresh(){
+        self.viewModel.search(self.searchKeyword)
+
+    }
+    
+
 }
 
 struct ContentView_Previews: PreviewProvider {

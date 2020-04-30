@@ -37,19 +37,19 @@ struct LocationMap: View {
     
 
     }
-            private func findGeocode()  {
-                let geocoder = CLGeocoder()
-                let location = CLLocation(latitude: locationCoordinate.latitude,
-                                          longitude: locationCoordinate.longitude)
-                geocoder.reverseGeocodeLocation(location) { (places, error) in
-                if error == nil {
-                    if let placeMark = places?[0]{
-                        print("Placemark \(placeMark)")
-                        self.searchKeyword = placeMark.locality ?? placeMark.country ?? ""
-                        self.showModal = false
-                    }
-                }
-              }
+    private func findGeocode()  {
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: locationCoordinate.latitude,
+                                  longitude: locationCoordinate.longitude)
+        geocoder.reverseGeocodeLocation(location) { (places, error) in
+        if error == nil {
+            if let placeMark = places?[0]{
+                print("Placemark \(placeMark)")
+                self.searchKeyword = placeMark.country ?? ""
+                self.showModal = false
+            }
+        }
+      }
     }
 }
 
