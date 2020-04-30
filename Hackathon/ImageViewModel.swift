@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 
 final class ImageViewModel: ObservableObject {
+    static let obfuscatedKey: [UInt8] = [112, 70, 66, 125, 92, 94, 84, 81, 76, 18, 6, 47, 106, 118, 83, 82, 80, 84, 68, 114, 66, 73, 113, 0, 92, 0, 3, 0, 17, 83, 45, 98, 44, 1]
 
     @Published private(set) var imageDetails = [ImageDetail]()
 
@@ -25,9 +26,10 @@ final class ImageViewModel: ObservableObject {
 //        guard !imageDetails.isEmpty else {
 //            return imageDetails = []
 //        }
-
+        
         var components = URLComponents(string: "https://pixabay.com/api")
-        components?.queryItems = [URLQueryItem(name: "key", value: "16299216-fca99185703295e0edae6c1cc"),
+        components?.queryItems = [URLQueryItem(name: "key",
+                                               value:  Obfuscator().reveal(key: ImageViewModel.obfuscatedKey)),
                                   URLQueryItem(name: "q", value: keyword),
                                   URLQueryItem(name: "image_type", value: "photo"),
                                   URLQueryItem(name: "safesearch", value: "true"),
