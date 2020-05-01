@@ -17,15 +17,23 @@ struct ContentView: View {
     @State private var showSettings = false
     @State private var showMap = false
     @State private var searchKeyword = "Vancouver"
+     @State private var showLoading = true
     @ObservedObject var viewModel = ImageViewModel()
 
     var body: some View {
         NavigationView {
-            ImagesGrid(model: viewModel, settings: $settings)
-                .customNavigationBarTitle(Text("Inspirations"), displayMode: .inline)
-                .customNavigationBarItems(leading: self.leadingNavigationBarItems(), trailing: trailingNavigationBarItems())
-        }
-//        .sheet(isPresented: $showSettings, content: { SettingsView(settings: self.$settings, screen: .images, isPresented: self.$showSettings) })
+            ZStack{
+                LottieView(filename: "9844-loading-40-paperplane")
+                
+                ImagesGrid(model: viewModel, settings: $settings)
+                    .customNavigationBarTitle(Text("Inspirations"), displayMode: .inline)
+                    .customNavigationBarItems(leading: self.leadingNavigationBarItems(), trailing: trailingNavigationBarItems())
+                }
+
+                
+            }
+            
+            
             .sheet(isPresented: $showMap, onDismiss: refresh, content: {LocationMap(showModal: self.$showMap, searchKeyword: self.$searchKeyword)})
             .navigationViewStyle(StackNavigationViewStyle())
             .onAppear(perform: {
@@ -51,6 +59,7 @@ struct ContentView: View {
     
     func refresh(){
         self.viewModel.search(self.searchKeyword)
+
 
     }
     
