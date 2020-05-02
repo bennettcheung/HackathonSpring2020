@@ -12,7 +12,6 @@ import MapKit
 
 struct ContentView: View {
     
-//    @State private var images = Generator.Images.testData()
     @State private var settings = Settings.default(for: .images)
     @State private var showSettings = false
     @State private var showMap = false
@@ -22,11 +21,9 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            ZStack{
-                LottieView(filename: "9844-loading-40-paperplane")
-                
+            ZStack{                
                 ImagesGrid(model: viewModel, settings: $settings)
-                    .customNavigationBarTitle(Text("Inspirations"), displayMode: .inline)
+                    .customNavigationBarTitle(Text(self.searchKeyword), displayMode: .inline)
                     .customNavigationBarItems(leading: self.leadingNavigationBarItems(), trailing: trailingNavigationBarItems())
                 }
 
@@ -52,7 +49,7 @@ struct ContentView: View {
     private func trailingNavigationBarItems() -> some View {
         HStack() {
             Button(action: {self.refresh() }) {
-                Image(systemName: "gobackward")
+                Image(systemName: "")
             }
         }
     }
@@ -74,6 +71,10 @@ struct ContentView_Previews: PreviewProvider {
 
            ContentView()
               .environment(\.colorScheme, .dark)
+                
+           ContentView()
+            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch)"))
+
         }
             
     }
